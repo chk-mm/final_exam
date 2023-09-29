@@ -14,28 +14,24 @@ def sum_digit(digit):
     else:
         return digit
 def luhn(num):
+    checksum = 0
     pl = str(num)
     chk = []
     for i in pl:
         chk.append(int(i))
+        checksum = checksum + int(i)
 
     chk = chk[::-1]
     s = 0
     while (s<len(pl)):
+        checksum = checksum - chk[s]
         tmp = sum_digit(chk[s]*2)
         chk[s] = tmp
+        checksum = checksum +chk[s]
         s+=2
-    checksum = 0
-    for z in chk:
-        checksum = checksum + z
-    if checksum < 10:
-        return 10-checksum
-    elif checksum == 10:
-        return 0
-    else:
-        tmp_cal = abs(100-checksum)
-        tmp_str = str(tmp_cal)
-        return int(tmp_str[-1])
+
+    res = (10-(checksum%10))%10
+    return res
 
 print(luhn(62))
 print(luhn(250219941))
